@@ -5,10 +5,13 @@ setFlagsFromString('--no-incremental-marking');
 
 const { run } = await import('./solve.js');
 
-const cases = JSON.parse(readFileSync('/input/cases.json', 'utf8')) as {
+const inputDir = process.env.MAKEFUN_INPUT_DIR ?? '/input';
+const outputDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+
+const cases = JSON.parse(readFileSync(`${inputDir}/cases.json`, 'utf8')) as {
   id: string;
   input: { text: string; header: boolean };
 }[];
 const answers = cases.map((c) => run(c.input));
-mkdirSync('/output', { recursive: true });
-writeFileSync('/output/answers.json', JSON.stringify(answers));
+mkdirSync(outputDir, { recursive: true });
+writeFileSync(`${outputDir}/answers.json`, JSON.stringify(answers));
